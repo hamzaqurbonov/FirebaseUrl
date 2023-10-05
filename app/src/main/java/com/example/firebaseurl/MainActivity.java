@@ -1,9 +1,12 @@
 package com.example.firebaseurl;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.ProgressDialog;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -23,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     TextView url;
     ProgressDialog pd;
 
-    private FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-    private DatabaseReference reference=firebaseDatabase.getReference();
-    private DatabaseReference childrefrence=reference.child("url");
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference reference = firebaseDatabase.getReference();
+    private DatabaseReference childrefrence = reference.child("url");
 
 
     @Override
@@ -33,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        video= (VideoView) findViewById(R.id.video);
-        pd=new ProgressDialog(MainActivity.this);
-        url=(TextView) findViewById(R.id.text);
+        video = (VideoView) findViewById(R.id.video);
+        pd = new ProgressDialog(MainActivity.this);
+        url = (TextView) findViewById(R.id.);
         pd.setMessage("Buffering Please wait");
         pd.show();
 
@@ -47,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         childrefrence.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String message=dataSnapshot.getValue(String.class);
+                String message = dataSnapshot.getValue(String.class);
                 Uri uri = Uri.parse(message);
                 video.setVideoURI(uri);
                 video.start();
