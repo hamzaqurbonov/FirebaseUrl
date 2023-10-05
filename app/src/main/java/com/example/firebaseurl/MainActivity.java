@@ -19,7 +19,7 @@ import com.google.firebase.ktx.Firebase;
 
 public class MainActivity extends AppCompatActivity {
 
-    VideoView videoView;
+    VideoView video;
     TextView url;
     ProgressDialog pd;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        videoView= (VideoView) findViewById(R.id.videoView);
+        video= (VideoView) findViewById(R.id.video);
         pd=new ProgressDialog(MainActivity.this);
         url=(TextView) findViewById(R.id.text);
         pd.setMessage("Buffering Please wait");
@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         childrefrence.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String message=snapshot.getValue(String.class);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String message=dataSnapshot.getValue(String.class);
                 Uri uri = Uri.parse(message);
-                videoView.setVideoURI(uri);
-                videoView.start();
-                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                video.setVideoURI(uri);
+                video.start();
+                video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
                         pd.dismiss();
