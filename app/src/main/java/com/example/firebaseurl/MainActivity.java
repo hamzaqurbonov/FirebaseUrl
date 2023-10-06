@@ -2,6 +2,12 @@ package com.example.firebaseurl;
 
 import static android.content.ContentValues.TAG;
 
+
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,35 +16,30 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.firebaseurl.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
 
 public class MainActivity extends AppCompatActivity {
 
     VideoView video;
     TextView url;
     ProgressDialog pd;
-
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference reference = firebaseDatabase.getReference();
     private DatabaseReference childrefrence = reference.child("url");
 
-
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         video = (VideoView) findViewById(R.id.video);
         pd = new ProgressDialog(MainActivity.this);
-        url = (TextView) findViewById(R.id.);
+        url = (TextView) findViewById(R.id.text);
         pd.setMessage("Buffering Please wait");
         pd.show();
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
+
                         pd.dismiss();
                     }
                 });
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
     }
