@@ -31,6 +31,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFram
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerUtils;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private static final String[] VideoIds3 = {"Sy5WFjCQFwo"};
     public static String getNextVideoId() {
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     TextView VideoIds;
 
     private YouTubePlayerView youTubePlayerView;
-//    private static final String[] myRef1 = {""};
 
 
     @SuppressLint("MissingInflatedId")
@@ -49,37 +50,62 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("demo", "onCreate" );
+
         youTubePlayerView = findViewById(R.id.youtube_player_view);
 
         initYouTubePlayerView();
-//
+
         VideoIds = findViewById(R.id.myRef1);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        DatabaseReference childrefrence = myRef.child("url");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
+        DatabaseReference itemsRef = firebaseRootRef.child("items");
+        ArrayList<Object> itemsList = new ArrayList<>();
 
-//        myRef.setValue("YJ_haVTuHUM");
-//        myRef.get();
+        Log.d(TAG, "");
 
-
-
-
-        childrefrence.addValueEventListener(new ValueEventListener() {
+        ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                String m = datasnapshot.getValue(String.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "");
 
-                VideoIds.setText(m);
-
-//                Log.d(TAG, "Value is: " + value);
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String itemName = ds.child("itemName").getValue(String.class);
+                    itemsList.add(itemName);
+                }
+                Log.d(TAG, itemsList.toString());
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onCancelled( DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
             }
-        });
+        };
+        itemsRef.addListenerForSingleValueEvent(valueEventListener);
+        Log.d(TAG, "");
+        Log.d(TAG, itemsList.toString());
+
+
+
+
+
+
+//        childrefrence.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+//                String m = datasnapshot.getValue(String.class);
+//
+//                VideoIds.setText(m);
+//
+////                Log.d(TAG, "Value is: " + value);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+////                Log.w(TAG, "Failed to read value.", error.toException());
+//            }
+//        });
 
 
     }
