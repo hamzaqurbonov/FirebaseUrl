@@ -8,21 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.example.firebaseurl.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
@@ -34,9 +30,11 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String[] VideoIds3 = {"Sy5WFjCQFwo"};
+    private static final String[] itemsList1 = {"AcT0Xrtg2tU"};
+//    private static final String[] VideoIds3 = itemsList;
+
     public static String getNextVideoId() {
-        return VideoIds3[0];
+        return itemsList1[0];
     }
 
     TextView VideoIds;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("demo", "onCreate" );
+        Log.d("demo", "onCreate1" );
 
         youTubePlayerView = findViewById(R.id.youtube_player_view);
 
@@ -58,37 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
         VideoIds = findViewById(R.id.myRef1);
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
-        DatabaseReference itemsRef = firebaseRootRef.child("items");
-        ArrayList<Object> itemsList = new ArrayList<>();
 
-        Log.d(TAG, "");
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        readData(new FirebaseCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "");
+            public void onCallback(ArrayList<Object> list) {
 
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String itemName = ds.child("itemName").getValue(String.class);
-                    itemsList.add(itemName);
-                }
-                Log.d(TAG, itemsList.toString());
+                Log.d("demo1", list.toString());
             }
-
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-                Log.d(TAG, databaseError.getMessage());
-            }
-        };
-        itemsRef.addListenerForSingleValueEvent(valueEventListener);
-        Log.d(TAG, "");
-        Log.d(TAG, itemsList.toString());
-
-
-
-
+        });
 
 
 //        childrefrence.addValueEventListener(new ValueEventListener() {
@@ -106,10 +82,45 @@ public class MainActivity extends AppCompatActivity {
 ////                Log.w(TAG, "Failed to read value.", error.toException());
 //            }
 //        });
-
-
     }
 
+    private void readData(FirebaseCallback firebaseCallback) {
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
+        DatabaseReference itemsRef = firebaseRootRef.child("items");
+        ArrayList<Object> itemsList = new ArrayList<>();
+
+        Log.d(TAG, "Before attaching the listener");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "inside onDataChange() method");
+
+                
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String itemName = ds.child("itemName").getValue(String.class);
+                    itemsList.add(itemName);
+                }
+
+
+                firebaseCallback.onCallback(itemsList);
+//                Log.d("demo1", itemsList.toString());
+            }
+
+            @Override
+            public void onCancelled( DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        };
+       
+        itemsRef.addListenerForSingleValueEvent(valueEventListener);
+        Log.d(TAG, "After attaching the listener");
+    }
+
+    private interface FirebaseCallback {
+        void onCallback(ArrayList<Object> list);
+    }
 
 
 
@@ -143,13 +154,16 @@ public class MainActivity extends AppCompatActivity {
 
                 setPlayNextVideoButtonClickListener(youTubePlayer);
 
+
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
                         getNextVideoId(),
                         0f
                 );
+                Log.d("demo1", getNextVideoId());
             }
+
         };
 
         // disable web ui
