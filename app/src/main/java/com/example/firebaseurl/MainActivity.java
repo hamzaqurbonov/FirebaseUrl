@@ -30,37 +30,33 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTube
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 //    private static String[] itemsList16;
-public String yourNameVariable;
-//    public static final String[] itemsList1 = {};
-//    public static String[] itemsList2 = {};?
-//    public  String[] itemsList ;
-//     int[] itemsList;
+//public static String yourNameVariable;
 
-//    int itemsList2, itemsList3, itemsList4 = 20;
-//    int[] itemsList5 = new int[5] ;
-//    itemsList5[3] = 23;
-//    itemsList5[4] = 12;
-//    int[] itemsList6 = new int[] {23, 34, 56};
-//        public static String readData () {
-//
-//            return readData();
-//        }
+    public static ArrayList<Object> itemsList = new ArrayList<>();
 
-//    public  String getNextVideoI() {
+//    public static final String[]  itemsList1 = {itemsList.toString()};
+
+
+
+
+    private static final Random random = new Random();
+
+    public static String getNextVideoId() {
+        String[]  itemsList2 = {itemsList.toString()};
+        Log.d("demo12", itemsList2.toString());
+
+        return  itemsList2[random.nextInt(itemsList2.length)];
+    }
+
+//    String itemsList;
+//    public String toString() {
 //
-//       readData(new FirebaseCallback() {
-//            @Override
-//            public void onCallback(ArrayList<Object> list) {
-//                Log.d("demo8", list.toString() );
-//            }
-//
-//        });
-//
+//        return itemsList;
 //    }
-
     TextView VideoIds;
 
     private YouTubePlayerView youTubePlayerView;
@@ -72,7 +68,6 @@ public String yourNameVariable;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("demo", "onCreate1" );
 
         youTubePlayerView = findViewById(R.id.youtube_player_view);
 
@@ -82,6 +77,7 @@ public String yourNameVariable;
 
 
         readData(new FirebaseCallback() {
+
             @Override
             public void onCallback(ArrayList<Object> list) {
 
@@ -89,25 +85,11 @@ public String yourNameVariable;
 
             }
 
+
         });
 
+        getNextVideoId();
 
-
-//        childrefrence.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-//                String m = datasnapshot.getValue(String.class);
-//
-//                VideoIds.setText(m);
-//
-////                Log.d(TAG, "Value is: " + value);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-////                Log.w(TAG, "Failed to read value.", error.toException());
-//            }
-//        });
     }
 
     public void readData(FirebaseCallback firebaseCallback) {
@@ -116,32 +98,23 @@ public String yourNameVariable;
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
         DatabaseReference itemsRef = firebaseRootRef.child("items");
-        ArrayList<Object> itemsList = new ArrayList<>();
+//        ArrayList<Object> itemsList = new ArrayList<>();
 
-
-        Log.d(TAG, "Before attaching the listener");
         ValueEventListener valueEventListener = new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Log.d(TAG, "inside onDataChange() method");
-
                 
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String itemName = ds.child("itemName").getValue(String.class);
-                    yourNameVariable = ds.child("itemName").getValue(String.class);
                     itemsList.add(itemName);
 
                 }
                 firebaseCallback.onCallback(itemsList);
 
-//                sayHiToMe();
-                Log.d("demo7", itemsList.toString());
-                Log.d("demo10", yourNameVariable);
+                Log.d("demo13", itemsList.toString());
 
             }
-
 
             @Override
             public void onCancelled( DatabaseError databaseError) {
@@ -150,42 +123,36 @@ public String yourNameVariable;
         };
        
         itemsRef.addListenerForSingleValueEvent(valueEventListener);
-        Log.d(TAG, "After attaching the listener");
-
 
     }
+
+
+
 
     public interface FirebaseCallback {
+
         void onCallback(ArrayList<Object> list);
+
     }
-//    public void sayHiToMe() {
-//        Log.d("demo9", yourNameVariable );
-//    }
 
     public void initYouTubePlayerView() {
-
-
-
         getLifecycle().addObserver(youTubePlayerView);
-
 
         YouTubePlayerListener listener = new AbstractYouTubePlayerListener() {
 
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-
-
                 setPlayNextVideoButtonClickListener(youTubePlayer);
-
-
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        yourNameVariable
+                        getNextVideoId()
                         ,
                         0f
+
                 );
-                Log.d("demo5", yourNameVariable );
+                Log.d("demo14", getNextVideoId());
+                Log.d("demo14", itemsList.toString());
             }
 
         };
