@@ -55,16 +55,14 @@ public class MainActivity extends AppCompatActivity {
 //
 
     private static final Random random = new Random();
-    int randomNext = random.nextInt(7) ;
-//    public static String getNextVideoId() {
-//
-//
-//
-//        Log.d("demo15", String.valueOf((randomNext)));
-//        return  myArrayList.get(randomNext);
-//
-////        return  itemsList2[random.nextInt(itemsList2.length)];
-//    }
+
+    public static String getNextVideoId() {
+        int randomNext = random.nextInt(7) ;
+
+        return  myArrayList.get(randomNext);
+
+//        return  itemsList2[random.nextInt(itemsList2.length)];
+    }
 
 //    public  String toString(String name) {
 //        return name;
@@ -196,13 +194,13 @@ public class MainActivity extends AppCompatActivity {
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        myArrayList.get(randomNext)
+                        getNextVideoId()
                         ,
                         0f
 
                 );
-                Log.d("demo15", myArrayList.get(randomNext));
-                Log.d("demo15", String.valueOf(randomNext));
+                Log.d("demo15", getNextVideoId());
+//                Log.d("demo15", String.valueOf(randomNext));
             }
 
         };
@@ -234,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        "HXrETVPKWh0",
+                        getNextVideoId(),
 
                         0f
                 )
