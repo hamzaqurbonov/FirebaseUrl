@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -12,10 +13,13 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.play.core.integrity.model.a;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,24 +37,28 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
+    ListView MylistView1;
+    ArrayList<String> myArrayList = new ArrayList<>();
+    DatabaseReference myRef;
+
+
 //    private static String[] itemsList16;
 //public static String yourNameVariable;
 
-    public static ArrayList<Object> itemsList = new ArrayList<>();
+//    public static ArrayList<Object> itemsList = new ArrayList<>();
 
 //    public static final String[]  itemsList1 = {itemsList.toString()};
 
-
-
-
-    private static final Random random = new Random();
-
-    public static String getNextVideoId() {
-        String[]  itemsList2 = {itemsList.toString()};
-        Log.d("demo12", itemsList2.toString());
-
-        return  itemsList2[random.nextInt(itemsList2.length)];
-    }
+//
+//    private static final Random random = new Random();
+//
+//    public static String getNextVideoId() {
+//        String[]  itemsList2 = {itemsList.toString()};
+//        Log.d("demo12", itemsList2.toString());
+//
+//        return  itemsList2[random.nextInt(itemsList2.length)];
+//    }
 
 //    String itemsList;
 //    public String toString() {
@@ -68,72 +76,105 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         youTubePlayerView = findViewById(R.id.youtube_player_view);
-
         initYouTubePlayerView();
-
         VideoIds = findViewById(R.id.myRef1);
 
 
-        readData(new FirebaseCallback() {
+       final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,myArrayList);
+        MylistView1 = (ListView) findViewById(R.id.listView1);
+        MylistView1.setAdapter(myArrayAdaptrer);
+        myRef = FirebaseDatabase.getInstance().getReference();
+
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                String value =  snapshot.getValue(String.class);
+                myArrayList.add(value);
+                myArrayAdaptrer.notifyDataSetChanged();
+            }
 
             @Override
-            public void onCallback(ArrayList<Object> list) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                myArrayAdaptrer.notifyDataSetChanged();
+            }
 
-                Log.d("demo4", list.toString());
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
             }
 
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
 
-        getNextVideoId();
+
+
+
+
+//        readData(new FirebaseCallback() {
+//
+//            @Override
+//            public void onCallback(ArrayList<Object> list) {
+//
+//                Log.d("demo4", list.toString());
+//
+//            }
+//        });
+//
+//        getNextVideoId();
 
     }
 
-    public void readData(FirebaseCallback firebaseCallback) {
+//    public void readData(FirebaseCallback firebaseCallback) {
+//
+//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+//        DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
+//        DatabaseReference itemsRef = firebaseRootRef.child("items");
+////        ArrayList<Object> itemsList = new ArrayList<>();
+//
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    String itemName = ds.child("itemName").getValue(String.class);
+//                    itemsList.add(itemName);
+//
+//                }
+//                firebaseCallback.onCallback(itemsList);
+//
+//                Log.d("demo13", itemsList.toString());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled( DatabaseError databaseError) {
+//                Log.d(TAG, databaseError.getMessage());
+//            }
+//        };
+//
+//        itemsRef.addListenerForSingleValueEvent(valueEventListener);
+//
+//    }
 
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
-        DatabaseReference itemsRef = firebaseRootRef.child("items");
-//        ArrayList<Object> itemsList = new ArrayList<>();
-
-        ValueEventListener valueEventListener = new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String itemName = ds.child("itemName").getValue(String.class);
-                    itemsList.add(itemName);
-
-                }
-                firebaseCallback.onCallback(itemsList);
-
-                Log.d("demo13", itemsList.toString());
-
-            }
-
-            @Override
-            public void onCancelled( DatabaseError databaseError) {
-                Log.d(TAG, databaseError.getMessage());
-            }
-        };
-       
-        itemsRef.addListenerForSingleValueEvent(valueEventListener);
-
-    }
 
 
-
-
-    public interface FirebaseCallback {
-
-        void onCallback(ArrayList<Object> list);
-
-    }
+//    public interface FirebaseCallback {
+//
+//        void onCallback(ArrayList<Object> list);
+//
+//    }
 
     public void initYouTubePlayerView() {
         getLifecycle().addObserver(youTubePlayerView);
@@ -146,13 +187,13 @@ public class MainActivity extends AppCompatActivity {
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        getNextVideoId()
+                        ""
                         ,
                         0f
 
                 );
-                Log.d("demo14", getNextVideoId());
-                Log.d("demo14", itemsList.toString());
+//                Log.d("demo14", getNextVideoId());
+//                Log.d("demo14", itemsList.toString());
             }
 
         };
