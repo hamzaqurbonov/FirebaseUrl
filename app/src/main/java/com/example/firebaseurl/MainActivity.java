@@ -38,9 +38,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    public  static int[] asd;
     ListView MylistView1;
-    ArrayList<String> myArrayList = new ArrayList<>();
+    public static ArrayList<String> myArrayList = new ArrayList<>();
     DatabaseReference myRef;
+
 
 
 //    private static String[] itemsList16;
@@ -48,16 +50,24 @@ public class MainActivity extends AppCompatActivity {
 
 //    public static ArrayList<Object> itemsList = new ArrayList<>();
 
-//    public static final String[]  itemsList1 = {itemsList.toString()};
+//    public static final String[]  myArrayList1 = {myArrayList.toString()};
 
 //
-//    private static final Random random = new Random();
-//
+
+    private static final Random random = new Random();
+    int randomNext = random.nextInt(7) ;
 //    public static String getNextVideoId() {
-//        String[]  itemsList2 = {itemsList.toString()};
-//        Log.d("demo12", itemsList2.toString());
 //
-//        return  itemsList2[random.nextInt(itemsList2.length)];
+//
+//
+//        Log.d("demo15", String.valueOf((randomNext)));
+//        return  myArrayList.get(randomNext);
+//
+////        return  itemsList2[random.nextInt(itemsList2.length)];
+//    }
+
+//    public  String toString(String name) {
+//        return name;
 //    }
 
 //    String itemsList;
@@ -93,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 String value =  snapshot.getValue(String.class);
                 myArrayList.add(value);
                 myArrayAdaptrer.notifyDataSetChanged();
+//                Log.d("demo16", myArrayList.get(0));
             }
 
             @Override
@@ -116,10 +127,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
 //        readData(new FirebaseCallback() {
 //
 //            @Override
@@ -133,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 //        getNextVideoId();
 
     }
+
+
 
 //    public void readData(FirebaseCallback firebaseCallback) {
 //
@@ -187,13 +196,13 @@ public class MainActivity extends AppCompatActivity {
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        ""
+                        myArrayList.get(randomNext)
                         ,
                         0f
 
                 );
-//                Log.d("demo14", getNextVideoId());
-//                Log.d("demo14", itemsList.toString());
+                Log.d("demo15", myArrayList.get(randomNext));
+                Log.d("demo15", String.valueOf(randomNext));
             }
 
         };
