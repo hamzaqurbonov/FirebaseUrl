@@ -22,7 +22,7 @@
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="300dp"
 
         android:layout_marginBottom="100dp"
         app:enableAutomaticInitialization="false"
@@ -36,13 +36,24 @@
 
     </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager2"
+        android:layout_width="400dp"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        app:autoPlay="false"
+        app:layout_constraintBottom_toTopOf="@+id/youtube_player_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView1" />
+
     <Button
         android:id="@+id/next_video_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:backgroundTint="#03A9F4"
         android:padding="26dp"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:text="Play Next Video"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"

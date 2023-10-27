@@ -38,43 +38,15 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    public  static int[] asd;
+
+    ArrayList<Model> arrayList = new ArrayList<>();
     ListView MylistView1;
     public static ArrayList<String> myArrayList = new ArrayList<>();
     DatabaseReference myRef;
 
+    Model modelUrl = new Model();
 
-
-//    private static String[] itemsList16;
-//public static String yourNameVariable;
-
-//    public static ArrayList<Object> itemsList = new ArrayList<>();
-
-//    public static final String[]  myArrayList1 = {myArrayList.toString()};
-
-//
-
-    private static final Random random = new Random();
-
-    public static String getNextVideoId() {
-        int randomNext = random.nextInt(7) ;
-
-        return  myArrayList.get(randomNext);
-
-//        return  itemsList2[random.nextInt(itemsList2.length)];
-    }
-
-//    public  String toString(String name) {
-//        return name;
-//    }
-
-//    String itemsList;
-//    public String toString() {
-//
-//        return itemsList;
-//    }
     TextView VideoIds;
-
     private YouTubePlayerView youTubePlayerView;
 
 
@@ -125,63 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        readData(new FirebaseCallback() {
-//
-//            @Override
-//            public void onCallback(ArrayList<Object> list) {
-//
-//                Log.d("demo4", list.toString());
-//
-//            }
-//        });
-//
-//        getNextVideoId();
-
     }
-
-
-
-//    public void readData(FirebaseCallback firebaseCallback) {
-//
-//        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-//        DatabaseReference firebaseRootRef = firebaseDatabase.getReference();
-//        DatabaseReference itemsRef = firebaseRootRef.child("items");
-////        ArrayList<Object> itemsList = new ArrayList<>();
-//
-//        ValueEventListener valueEventListener = new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    String itemName = ds.child("itemName").getValue(String.class);
-//                    itemsList.add(itemName);
-//
-//                }
-//                firebaseCallback.onCallback(itemsList);
-//
-//                Log.d("demo13", itemsList.toString());
-//
-//            }
-//
-//            @Override
-//            public void onCancelled( DatabaseError databaseError) {
-//                Log.d(TAG, databaseError.getMessage());
-//            }
-//        };
-//
-//        itemsRef.addListenerForSingleValueEvent(valueEventListener);
-//
-//    }
-
-
-
-
-//    public interface FirebaseCallback {
-//
-//        void onCallback(ArrayList<Object> list);
-//
-//    }
 
     public void initYouTubePlayerView() {
         getLifecycle().addObserver(youTubePlayerView);
@@ -194,13 +110,12 @@ public class MainActivity extends AppCompatActivity {
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        getNextVideoId()
+                        modelUrl.getVideoUrl()
                         ,
                         0f
 
                 );
-                Log.d("demo15", getNextVideoId());
-//                Log.d("demo15", String.valueOf(randomNext));
+                Log.d("demo15", modelUrl.getVideoUrl());
             }
 
         };
@@ -221,10 +136,6 @@ public class MainActivity extends AppCompatActivity {
             youTubePlayerView.wrapContent();
         }
     }
-
-    /**
-     * Set a click listener on the "Play next video" button
-     */
     private void setPlayNextVideoButtonClickListener(final YouTubePlayer youTubePlayer) {
         Button playNextVideoButton = findViewById(R.id.next_video_button);
 
@@ -232,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        getNextVideoId(),
+                        modelUrl.getVideoUrl(),
 
                         0f
                 )
