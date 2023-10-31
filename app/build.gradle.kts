@@ -8,6 +8,10 @@ android {
     namespace = "com.example.firebaseurl"
     compileSdk = 33
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.firebaseurl"
         minSdk = 24
