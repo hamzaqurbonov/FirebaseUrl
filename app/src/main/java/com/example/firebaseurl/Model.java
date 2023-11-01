@@ -1,6 +1,7 @@
 package com.example.firebaseurl;
 
-import static com.example.firebaseurl.MainActivity.myArrayList;
+
+import static com.example.firebaseurl.MainActivity.myArrayList1;
 
 import android.util.Log;
 
@@ -14,19 +15,19 @@ public class Model {
     public static final Random random = new Random();
     public static String getNextVideoId() {
         int randomNext = random.nextInt(7) ;
-        Log.d("demo19", String.valueOf(randomNext));
-        Log.d("demo19", myArrayList.get(randomNext));
-        return myArrayList.get(randomNext);
+//        Log.d("demo19", String.valueOf(randomNext));
+//        Log.d("demo19", myArrayList.get(randomNext));
+        return myArrayList1.get(randomNext);
     }
 
     String videoUrl;
 
-    public Model() {
+    public Model(String videoUrl) {
         this.videoUrl = videoUrl;
     }
 
     public String getVideoUrl() {
-        String videoUrl = getNextVideoId();
+//        String videoUrl = getNextVideoId();
         return videoUrl;
     }
 

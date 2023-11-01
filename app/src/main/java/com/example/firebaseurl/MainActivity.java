@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.firebaseurl.databinding.ActivityMainBinding;
 import com.google.android.play.core.integrity.model.a;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,16 +39,21 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    ActivityMainBinding binding;
     ArrayList<Model> arrayList = new ArrayList<>();
-    ListView MylistView1;
-    public static ArrayList<String> myArrayList = new ArrayList<>();
+    Adapter adapter;
+
+
+//    ArrayList<Model> arrayList = new ArrayList<>();
+//    ListView MylistView1;
+    public static ArrayList<String> myArrayList1 = new ArrayList<>();
     DatabaseReference myRef;
 
-    Model modelUrl = new Model();
+    Model modelUrl ;
 
-    TextView VideoIds;
+//    TextView VideoIds;
     private YouTubePlayerView youTubePlayerView;
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -56,14 +62,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        youTubePlayerView = findViewById(R.id.youtube_player_view);
-        initYouTubePlayerView();
-        VideoIds = findViewById(R.id.myRef1);
+//        youTubePlayerView = findViewById(R.id.youtube_player_view);
+//        initYouTubePlayerView();
+//        VideoIds = findViewById(R.id.myRef1);
 
 
-       final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,myArrayList);
-        MylistView1 = (ListView) findViewById(R.id.listView1);
-        MylistView1.setAdapter(myArrayAdaptrer);
+       final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,myArrayList1);
+//        MylistView1 = (ListView) findViewById(R.id.listView1);
+//        MylistView1.setAdapter(myArrayAdaptrer);
         myRef = FirebaseDatabase.getInstance().getReference();
 
         myRef.addChildEventListener(new ChildEventListener() {
@@ -71,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
                 String value =  snapshot.getValue(String.class);
-                myArrayList.add(value);
+//                myArrayList1.add(value);
                 myArrayAdaptrer.notifyDataSetChanged();
 //                Log.d("demo16", myArrayList.get(0));
             }
@@ -97,6 +103,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        arrayList.add(new Model("android.resource://"+ getPackageName() + "/" + R.raw.b));
+        arrayList.add(new Model("android.resource://"+ getPackageName() + "/" + R.raw.a3));
+
+        adapter = new Adapter(MainActivity.this,arrayList);
+        binding.viewpager2.setAdapter(adapter);
+
     }
 
     public void initYouTubePlayerView() {
@@ -106,16 +121,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                setPlayNextVideoButtonClickListener(youTubePlayer);
+//                setPlayNextVideoButtonClickListener(youTubePlayer);
                 YouTubePlayerUtils.loadOrCueVideo(
                         youTubePlayer,
                         getLifecycle(),
-                        modelUrl.getVideoUrl()
+                        "K7QHzcgvfck"
                         ,
                         0f
 
                 );
-                Log.d("demo15", modelUrl.getVideoUrl());
+//                Log.d("demo15", modelUrl.getVideoUrl());
             }
 
         };
@@ -125,28 +140,28 @@ public class MainActivity extends AppCompatActivity {
 
         youTubePlayerView.initialize(listener, options);
     }
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            youTubePlayerView.matchParent();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            youTubePlayerView.wrapContent();
-        }
-    }
-    private void setPlayNextVideoButtonClickListener(final YouTubePlayer youTubePlayer) {
-        Button playNextVideoButton = findViewById(R.id.next_video_button);
-
-        playNextVideoButton.setOnClickListener(view ->
-                YouTubePlayerUtils.loadOrCueVideo(
-                        youTubePlayer,
-                        getLifecycle(),
-                        modelUrl.getVideoUrl(),
-
-                        0f
-                )
-        );
-    }
+//    @Override
+//    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//
+//        // Checks the orientation of the screen
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            youTubePlayerView.matchParent();
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            youTubePlayerView.wrapContent();
+//        }
+//    }
+//    private void setPlayNextVideoButtonClickListener(final YouTubePlayer youTubePlayer) {
+//        Button playNextVideoButton = findViewById(R.id.next_video_button);
+//
+//        playNextVideoButton.setOnClickListener(view ->
+//                YouTubePlayerUtils.loadOrCueVideo(
+//                        youTubePlayer,
+//                        getLifecycle(),
+//                        modelUrl.getNextVideoId(),
+//
+//                        0f
+//                )
+//        );
+//    }
 }
