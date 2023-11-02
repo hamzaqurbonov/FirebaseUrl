@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,14 +45,8 @@ public class MainActivity extends AppCompatActivity {
     Adapter adapter;
 
 
-//    ArrayList<Model> arrayList = new ArrayList<>();
-//    ListView MylistView1;
     public static ArrayList<String> myArrayList1 = new ArrayList<>();
-    DatabaseReference myRef;
 
-    Model modelUrl ;
-
-//    TextView VideoIds;
     private YouTubePlayerView youTubePlayerView;
 
 
@@ -60,108 +55,67 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-//        youTubePlayerView = findViewById(R.id.youtube_player_view);
-//        initYouTubePlayerView();
-//        VideoIds = findViewById(R.id.myRef1);
+//        setContentView(R.layout.activity_main);
 
 
-       final ArrayAdapter<String> myArrayAdaptrer = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,myArrayList1);
-//        MylistView1 = (ListView) findViewById(R.id.listView1);
-//        MylistView1.setAdapter(myArrayAdaptrer);
-        myRef = FirebaseDatabase.getInstance().getReference();
 
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                String value =  snapshot.getValue(String.class);
-//                myArrayList1.add(value);
-                myArrayAdaptrer.notifyDataSetChanged();
-//                Log.d("demo16", myArrayList.get(0));
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                myArrayAdaptrer.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+
         setContentView(binding.getRoot());
 
-        arrayList.add(new Model("android.resource://"+ getPackageName() + "/" + R.raw.b));
+        arrayList.add(new Model(  "android.resource://"+ getPackageName() + "/"+ R.raw.b));
         arrayList.add(new Model("android.resource://"+ getPackageName() + "/" + R.raw.a3));
 
         adapter = new Adapter(MainActivity.this,arrayList);
         binding.viewpager2.setAdapter(adapter);
 
-    }
 
-    public void initYouTubePlayerView() {
+
+        youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
-        YouTubePlayerListener listener = new AbstractYouTubePlayerListener() {
-
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-//                setPlayNextVideoButtonClickListener(youTubePlayer);
-                YouTubePlayerUtils.loadOrCueVideo(
-                        youTubePlayer,
-                        getLifecycle(),
-                        "K7QHzcgvfck"
-                        ,
-                        0f
-
-                );
-//                Log.d("demo15", modelUrl.getVideoUrl());
+//                setContentView(R.layout.activity_main);
+                String videoId = "2RbpuIgCMkI";
+                youTubePlayer.loadVideo(videoId, 0);
             }
+        });
 
-        };
 
-        // disable web ui
-        IFramePlayerOptions options = new IFramePlayerOptions.Builder().controls(0).build();
 
-        youTubePlayerView.initialize(listener, options);
+//        initYouTubePlayerView();
     }
-//    @Override
-//    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
+
+//    public void initYouTubePlayerView() {
+//        getLifecycle().addObserver(youTubePlayerView);
 //
-//        // Checks the orientation of the screen
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            youTubePlayerView.matchParent();
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            youTubePlayerView.wrapContent();
-//        }
-//    }
-//    private void setPlayNextVideoButtonClickListener(final YouTubePlayer youTubePlayer) {
-//        Button playNextVideoButton = findViewById(R.id.next_video_button);
+//        YouTubePlayerListener listener = new AbstractYouTubePlayerListener() {
 //
-//        playNextVideoButton.setOnClickListener(view ->
+//            @Override
+//            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+//
 //                YouTubePlayerUtils.loadOrCueVideo(
 //                        youTubePlayer,
 //                        getLifecycle(),
-//                        modelUrl.getNextVideoId(),
-//
+//                        "K7QHzcgvfck"
+//                        ,
 //                        0f
-//                )
-//        );
+//                );
+//
+//            }
+//
+//        };
+//
+//        // disable web ui
+//        IFramePlayerOptions options = new IFramePlayerOptions.Builder().controls(0).build();
+//
+//        youTubePlayerView.initialize(listener, options);
 //    }
+
 }

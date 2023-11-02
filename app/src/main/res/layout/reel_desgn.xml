@@ -10,28 +10,28 @@
         android:id="@+id/videoView"
         android:layout_width="375dp"
         android:layout_height="262dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="348dp"
         android:layout_height="279dp"
+        android:layout_marginBottom="80dp"
 
-        app:autoPlay="true"
+
+
+
         app:layout_constraintBottom_toBottomOf="parent"
-
-
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoView"
-        app:layout_constraintVertical_bias="0.161"
-        app:videoId="0ibLfKJQDQs">
-
-
+        >
     </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

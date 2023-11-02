@@ -1,7 +1,9 @@
 package com.example.firebaseurl;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     Context context;
     ArrayList<Model> modelArrayList = new ArrayList<>();
 
+
+
+//    @SuppressLint("MissingInflatedId")
+
+
     public Adapter(Context context, ArrayList<Model> modelArrayList) {
         this.context = context;
         this.modelArrayList = modelArrayList;
@@ -26,6 +33,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     @Override
     public VideoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.reel_desgn,parent,false);
+
         return new VideoHolder(view);
     }
 

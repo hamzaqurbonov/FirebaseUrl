@@ -24,6 +24,7 @@ public class Model {
 
     public Model(String videoUrl) {
         this.videoUrl = videoUrl;
+
     }
 
     public String getVideoUrl() {
