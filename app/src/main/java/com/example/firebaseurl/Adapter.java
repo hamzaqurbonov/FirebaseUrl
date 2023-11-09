@@ -12,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebaseurl.databinding.ReelDesgnBinding;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     Context context;
@@ -21,8 +24,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
 
 
 
-//    @SuppressLint("MissingInflatedId")
+    public static final String[] my = {"4UbhF0uNpaM", "dcKut31hF9g"};
+    public static final Random random = new Random();
+    public static String getNextVideoId() {
 
+        return my[random.nextInt(my.length)];
+    }
 
     public Adapter(Context context, ArrayList<Model> modelArrayList) {
         this.context = context;
@@ -41,8 +48,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     public void onBindViewHolder(@NonNull VideoHolder holder, int position) {
         holder.binding.videoView.setVideoPath(modelArrayList.get(position).getVideoUrl());
 
+        holder.binding.youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+
+                String videoId = getNextVideoId();
+                youTubePlayer.loadVideo(videoId, 0);
+            }
+        });
 //        holder.binding.name.setText(modelArrayList.get(position).getName());
-//        holder.binding.profileImage.setImageResource(modelArrayList.get(position).getProfile());
+
+
 
         holder.binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override

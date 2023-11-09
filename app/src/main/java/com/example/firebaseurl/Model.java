@@ -22,8 +22,13 @@ public class Model {
 
     String videoUrl;
 
-    public Model(String videoUrl) {
+    String videoUrl2;
+
+    //---------------------------------------------------------------
+
+    public Model(String videoUrl, String videoUrl2) {
         this.videoUrl = videoUrl;
+        this.videoUrl2 = videoUrl2;
 
     }
 
@@ -35,4 +40,15 @@ public class Model {
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
     }
+
+//-------------------------------------------------
+
+    public String getVideoUrl2() {
+        return videoUrl2;
+    }
+
+    public void setVideoUrl2(String videoUrl2) {
+        this.videoUrl2 = videoUrl2;
+    }
+
 }

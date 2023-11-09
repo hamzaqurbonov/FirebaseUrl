@@ -7,32 +7,30 @@
     tools:context=".MainActivity">
 
 
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/youtube_player_view"
-        android:layout_width="348dp"
-        android:layout_height="279dp"
-        android:layout_marginBottom="80dp"
+    <!--    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView-->
+    <!--        android:id="@+id/youtube_player_view"-->
+    <!--        android:layout_width="348dp"-->
+    <!--        android:layout_height="279dp"-->
+    <!--        android:layout_marginBottom="80dp"-->
 
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-    </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.492"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        >-->
+    <!--    </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>-->
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager2"
-        android:layout_width="314dp"
-        android:layout_height="325dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:autoPlay="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
