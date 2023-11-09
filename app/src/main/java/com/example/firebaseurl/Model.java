@@ -26,8 +26,8 @@ public class Model {
 
     //---------------------------------------------------------------
 
-    public Model(String videoUrl, String videoUrl2) {
-        this.videoUrl = videoUrl;
+    public Model( ) {
+//        this.videoUrl = videoUrl;
         this.videoUrl2 = videoUrl2;
 
     }

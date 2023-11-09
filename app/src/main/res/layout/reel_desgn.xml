@@ -6,28 +6,24 @@
     android:layout_height="match_parent">
 
 
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="375dp"
-        android:layout_height="262dp"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <VideoView-->
+    <!--        android:id="@+id/videoView"-->
+    <!--        android:layout_width="375dp"-->
+    <!--        android:layout_height="262dp"-->
+    <!--        android:layout_marginTop="36dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.555"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="363dp"
-        android:layout_marginBottom="40dp"
+        android:layout_height="match_parent"
 
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.317"
-        app:layout_constraintStart_toStartOf="parent">
+        >
 
 
     </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>

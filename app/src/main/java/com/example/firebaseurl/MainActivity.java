@@ -55,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-
-
-
 
 
 
@@ -67,26 +63,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        arrayList.add(new Model(  "android.resource://"+ getPackageName() + "/"+ R.raw.b, "2RbpuIgCMkI"));
-        arrayList.add(new Model("android.resource://"+ getPackageName() + "/" + R.raw.a3, "2RbpuIgCMkI"));
+        arrayList.add(new Model());
 
         adapter = new Adapter(MainActivity.this,arrayList);
         binding.viewpager2.setAdapter(adapter);
-
-
-
-//        youTubePlayerView = findViewById(R.id.youtube_player_view);
-//        getLifecycle().addObserver(youTubePlayerView);
-//
-//        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-//            @Override
-//            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-//
-//                String videoId = "2RbpuIgCMkI";
-//                youTubePlayer.loadVideo(videoId, 0);
-//            }
-//        });
-
 
 
 //        initYouTubePlayerView();

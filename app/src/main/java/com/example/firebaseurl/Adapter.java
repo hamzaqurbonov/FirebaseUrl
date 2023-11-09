@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import java.util.Random;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     Context context;
-    ArrayList<Model> modelArrayList = new ArrayList<>();
-
+    ArrayList<Model> modelArrayList1 = new ArrayList<>();
+    public static int modelArrayList;
 
 
     public static final String[] my = {"4UbhF0uNpaM", "dcKut31hF9g"};
@@ -33,7 +34,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
 
     public Adapter(Context context, ArrayList<Model> modelArrayList) {
         this.context = context;
-        this.modelArrayList = modelArrayList;
+        this.modelArrayList1 = modelArrayList;
+
+//        Log.d("demo20", modelArrayList.toString());
     }
 
     @NonNull
@@ -46,7 +49,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull VideoHolder holder, int position) {
-        holder.binding.videoView.setVideoPath(modelArrayList.get(position).getVideoUrl());
+//        holder.binding.videoView.setVideoPath(modelArrayList.get(position).getVideoUrl());
+
 
         holder.binding.youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
@@ -56,30 +60,20 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
                 youTubePlayer.loadVideo(videoId, 0);
             }
         });
-//        holder.binding.name.setText(modelArrayList.get(position).getName());
-
-
-
-        holder.binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-            }
-        });
 
     }
 
     @Override
     public int getItemCount() {
-        return modelArrayList.size();
+        return modelArrayList = 20;
     }
-
     public class VideoHolder extends RecyclerView.ViewHolder{
-
         ReelDesgnBinding binding;
         public VideoHolder(@NonNull View itemView) {
             super(itemView);
             binding = ReelDesgnBinding.bind(itemView);
         }
+
     }
+
 }
