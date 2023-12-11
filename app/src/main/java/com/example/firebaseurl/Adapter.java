@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.firebaseurl.databinding.ReelDesgnBinding;
@@ -22,6 +23,8 @@ import java.util.Random;
 public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     Context context;
     ArrayList<Model> modelArrayList1 = new ArrayList<>();
+    ArrayList<Integer> namberGetItemCount = new ArrayList<Integer>();
+    String  ItemCount ;
     public static int modelArrayList;
 
 
@@ -50,22 +53,42 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
     @Override
     public void onBindViewHolder(@NonNull VideoHolder holder, int position) {
 //        holder.binding.videoView.setVideoPath(modelArrayList.get(position).getVideoUrl());
+//        ItemCount = "true";
 
 
-        holder.binding.youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+            holder.binding.youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(@NonNull YouTubePlayer youTubePlayer)  {
 
-                String videoId = getNextVideoId();
-                youTubePlayer.loadVideo(videoId, 0);
-            }
-        });
+                    String videoId = getNextVideoId();
+                    youTubePlayer.loadVideo(videoId, 0);
+                    Log.d("demo20", String.valueOf(1));
+//
+                }
+
+            });
+
+//        holder.binding.youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+//            @Override
+//            public void onReady(@NonNull YouTubePlayer youTubePlayer)  {
+//
+//                String videoId = getNextVideoId();
+//                youTubePlayer.cueVideo(videoId, 0);
+//                Log.d("demo20", String.valueOf(2));
+////
+//            }
+//
+//        });
 
     }
 
     @Override
     public int getItemCount() {
-        return modelArrayList = 20;
+
+        ItemCount = "true";
+        namberGetItemCount.add(1);
+//        Log.d("demo20", String.valueOf(namberGetItemCount.size()));
+        return modelArrayList = 5;
     }
     public class VideoHolder extends RecyclerView.ViewHolder{
         ReelDesgnBinding binding;
@@ -75,5 +98,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VideoHolder> {
         }
 
     }
+
 
 }

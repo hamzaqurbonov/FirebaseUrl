@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     Adapter adapter;
 
 
+
     public static ArrayList<String> myArrayList1 = new ArrayList<>();
 
     private YouTubePlayerView youTubePlayerView;
@@ -55,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
