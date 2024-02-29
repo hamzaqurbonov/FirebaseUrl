@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     ArrayList<Model> arrayList = new ArrayList<>();
+    
     Adapter adapter;
 
 
