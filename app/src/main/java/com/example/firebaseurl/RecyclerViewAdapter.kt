@@ -24,7 +24,7 @@ internal class RecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: YouTubePlayerViewHolder, position: Int) {
-        viewHolder.cueVideo(videoIds[position])
+        viewHolder.loadVideo(videoIds[position])
     }
 
     override fun getItemCount() = videoIds.size
@@ -53,7 +53,7 @@ internal class RecyclerViewAdapter(
                     // store youtube player reference for later
                     this@YouTubePlayerViewHolder.youTubePlayer = youTubePlayer
                     // cue the video if it's available
-                    currentVideoId?.let { youTubePlayer.cueVideo(it, 0f) }
+                    currentVideoId?.let { youTubePlayer.loadVideo(it, 0f) }
                 }
 
                 override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {
@@ -68,10 +68,10 @@ internal class RecyclerViewAdapter(
             })
         }
 
-        fun cueVideo(videoId: String) {
+        fun loadVideo(videoId: String) {
             currentVideoId = videoId
             // cue the video if the youtube player is available
-            youTubePlayer?.cueVideo(videoId, 0f)
+            youTubePlayer?.loadVideo(videoId, 0f)
         }
     }
 }
