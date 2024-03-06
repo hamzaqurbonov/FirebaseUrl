@@ -1,5 +1,6 @@
 package com.example.firebaseurl;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -34,6 +36,8 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.loadVideo(videoIds[position]);
 
+        Log.d("demo3",videoIds[position]);
+
     }
 
     @Override
@@ -56,6 +60,15 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
                     youTubePlayer = initializedYouTubePlayer;
                     youTubePlayer.loadVideo(currentVideoId, 0);
                 }
+
+//                @Override
+//                public void onStateChange(@NonNull YouTubePlayer youTubePlayer, @NonNull PlayerConstants.PlayerState state) {
+//                    playVideoAtSelection();
+//
+//                    // this method is called if video has ended,
+//                    super.onStateChange(youTubePlayer, state);
+//
+//                }
             });
         }
 
@@ -65,7 +78,14 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
             if (youTubePlayer == null)
                 return;
 
-            youTubePlayer.loadVideo(videoId, 0);
+//            youTubePlayer.cueVideo(videoId, 0);
+        }
+
+        private void playVideoAtSelection() {
+            if (!(youTubePlayer == null)) {
+                youTubePlayer.play();
+
+            }
         }
     }
 }
