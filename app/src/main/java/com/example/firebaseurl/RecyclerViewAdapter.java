@@ -2,6 +2,7 @@ package com.example.firebaseurl;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,10 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
+//        YouTubePlayerView youTubePlayerView1 = (YouTubePlayerView) LayoutInflater.from(parent.getContext()).inflate(R.layout.null_item, parent, false);
+
+//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.null_item, parent, false);
+
         lifecycle.addObserver(youTubePlayerView);
 
         return new ViewHolder(youTubePlayerView);
@@ -36,6 +41,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         viewHolder.loadVideo(videoIds[position]);
 
+//        viewHolder.expanded = !viewHolder.expanded;
         Log.d("demo3",videoIds[position]);
 
     }
@@ -47,6 +53,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final YouTubePlayerView youTubePlayerView;
+        public boolean expanded;
         private YouTubePlayer youTubePlayer;
         private String currentVideoId;
 
@@ -75,7 +82,7 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewH
         void loadVideo(String videoId) {
             currentVideoId = videoId;
 
-            if (youTubePlayer == null)
+//            if (youTubePlayer == null)
                 return;
 
 //            youTubePlayer.cueVideo(videoId, 0);
