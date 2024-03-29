@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // ----------------------------Битта обектни олади--------------------------------
-
-//        DocumentReference docRef = db.collection("cities").document("SF");
+        // ----------------------------Битта обектни олади---Source-----------------------------
+//
+//        DocumentReference docRef = db.collection("users").document("SF");
 ////
 //// Source can be CACHE, SERVER, or DEFAULT.
 //        Source source = Source.CACHE;
@@ -84,18 +84,65 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
-
-
         // ------------------------Modul dan ma'lumot olish------------------------------------
 
-//        DocumentReference docRef2 = db.collection("cities").document("BJ");
-//        docRef2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                City city = documentSnapshot.toObject(City.class);
-//                Log.d("demo1", String.valueOf(city.getCountry()));
-//            }
-//        });
+        DocumentReference docRef2 = db.collection("users").document("SF");
+        docRef2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                City city = documentSnapshot.toObject(City.class);
+                Log.d("demo1", "City " + city.getState());
+            }
+        });
+
+        // ----------------------------Битта обектни олади--------------------------------
+//        private FirebaseFirestore db = FirebaseFirestore.getInstance();
+//
+//        DocumentReference docRef = db.collection("users").document("SF");
+
+        db.collection("users").document("SF").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // Document found in the offline cache
+                    DocumentSnapshot document = task.getResult();
+
+
+
+                    if (document.exists()) {
+                        List<String> list = (ArrayList<String>) document.get("region");
+
+
+                        Map<String, Object> map = document.getData();
+                        for (Map.Entry<String, Object> entry : map.entrySet()) {
+                            if (entry.getKey().equals("state")) {
+
+
+                                Log.d("demo1", " get(1) " + map.entrySet().equals("name"));
+
+                                Log.d("demo1", " getValue() " + entry.getValue().toString());
+
+                                Log.d("demo1", " getKey() " + entry.getKey().toString());
+
+                            }
+                            if (entry.getKey().trim().equals("work")) {
+//                                Log.d("demo1", entry.getValue().toString());
+                                Log.d("demo1", " trim() " + entry.getValue().toString());
+                            }
+                        }
+
+//                        Log.d("demo1", "Cached document data: "+ list + document.getData());
+                    }
+
+                } else {
+                    Log.d("demo1", "Cached get failed: ", task.getException());
+                }
+            }
+        });
+
+
+
+
 
 
         // -------------------------Hamma obekt ichida aylanadi-----Faqt true lar------------------------------

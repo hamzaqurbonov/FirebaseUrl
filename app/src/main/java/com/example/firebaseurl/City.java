@@ -28,9 +28,9 @@ public class City {
 //        return idu;
 //    }
 //
-//    public String getId() {
-//        return id;
-//    }
+    public String getId() {
+        return id;
+    }
 
 
     public String getState() {
