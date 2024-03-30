@@ -110,24 +110,27 @@ public class MainActivity extends AppCompatActivity {
 
 
                     if (document.exists()) {
-                        List<String> list = (ArrayList<String>) document.get("region");
-
-
                         Map<String, Object> map = document.getData();
+                        List<String> list = (ArrayList<String>) document.get("gadin");
+//                      ----------------Map ni ichki kalitini oladi -------------
+                        Log.d("demo1", " get(1) " + ((Map<String, Object>)map.get("work")).get("name"));
+//                      ----------------Map ni ichki massivini oladi -------------
+                        Log.d("demo1", " get(2) " + ((Map<String, Object>)map.get("work")).get("gadin"));
+//                      ----------------Map ni ichki massivini kalitini oladi -------------
+                        List<String> list2 = (ArrayList<String>) ((Map<String, Object>)map.get("work")).get("gadin");
+                        Log.d("demo1", " get(3) " + list2.get(1));
+
+
                         for (Map.Entry<String, Object> entry : map.entrySet()) {
-                            if (entry.getKey().equals("state")) {
+                            if (entry.getKey().equals("work")) {
 
-
-                                Log.d("demo1", " get(1) " + map.entrySet().equals("name"));
-
-                                Log.d("demo1", " getValue() " + entry.getValue().toString());
-
-                                Log.d("demo1", " getKey() " + entry.getKey().toString());
-
+//                                Log.d("demo1", " get(1) " + ((Map<String, Object>)map.get("work")).get("name"));
+//                                Log.d("demo1", " getValue() " + entry.getValue().toString());//
+//                                Log.d("demo1", " getKey() " + entry.getKey());
                             }
-                            if (entry.getKey().trim().equals("work")) {
+                            if (entry.getKey().trim().equals("region")) {
 //                                Log.d("demo1", entry.getValue().toString());
-                                Log.d("demo1", " trim() " + entry.getValue().toString());
+//                                Log.d("demo1", " trim() " + entry.getValue());
                             }
                         }
 
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    Log.d("demo1", "Cached get failed: ", task.getException());
+//                    Log.d("demo1", "Cached get failed: ", task.getException());
                 }
             }
         });
