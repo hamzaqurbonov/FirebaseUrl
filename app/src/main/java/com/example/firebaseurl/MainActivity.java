@@ -91,57 +91,55 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 City city = documentSnapshot.toObject(City.class);
-                Log.d("demo1", "City " + city.getState());
+//                Log.d("demo1", "City " + city.getState());
             }
         });
 
         // ----------------------------Битта обектни олади--------------------------------
-//        private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+//        db.collection("users").document("SF").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    // Document found in the offline cache
+//                    DocumentSnapshot document = task.getResult();
 //
-//        DocumentReference docRef = db.collection("users").document("SF");
-
-        db.collection("users").document("SF").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    // Document found in the offline cache
-                    DocumentSnapshot document = task.getResult();
-
-
-
-                    if (document.exists()) {
-                        Map<String, Object> map = document.getData();
-                        List<String> list = (ArrayList<String>) document.get("gadin");
-//                      ----------------Map ni ichki kalitini oladi -------------
-                        Log.d("demo1", " get(1) " + ((Map<String, Object>)map.get("work")).get("name"));
-//                      ----------------Map ni ichki massivini oladi -------------
-                        Log.d("demo1", " get(2) " + ((Map<String, Object>)map.get("work")).get("gadin"));
-//                      ----------------Map ni ichki massivini kalitini oladi -------------
-                        List<String> list2 = (ArrayList<String>) ((Map<String, Object>)map.get("work")).get("gadin");
-                        Log.d("demo1", " get(3) " + list2.get(1));
-
-
-                        for (Map.Entry<String, Object> entry : map.entrySet()) {
-                            if (entry.getKey().equals("work")) {
-
-//                                Log.d("demo1", " get(1) " + ((Map<String, Object>)map.get("work")).get("name"));
-//                                Log.d("demo1", " getValue() " + entry.getValue().toString());//
-//                                Log.d("demo1", " getKey() " + entry.getKey());
-                            }
-                            if (entry.getKey().trim().equals("region")) {
-//                                Log.d("demo1", entry.getValue().toString());
-//                                Log.d("demo1", " trim() " + entry.getValue());
-                            }
-                        }
-
-//                        Log.d("demo1", "Cached document data: "+ list + document.getData());
-                    }
-
-                } else {
-//                    Log.d("demo1", "Cached get failed: ", task.getException());
-                }
-            }
-        });
+//
+//
+//                    if (document.exists()) {
+//                        Map<String, Object> map = document.getData();
+//                        List<String> list = (ArrayList<String>) document.get("gadin");
+////                      ----------------Map ni ichki kalitini oladi -------------
+//                        Log.d("demo1", " get(1) " + ((Map<String, Object>)map.get("work")).get("name"));
+////                      ----------------Map ni ichki massivini oladi -------------
+//                        Log.d("demo1", " get(2) " + ((Map<String, Object>)map.get("work")).get("gadin"));
+////                      ----------------Map ni ichki massivini kalitini oladi -------------
+//                        List<String> list2 = (ArrayList<String>) ((Map<String, Object>)map.get("work")).get("gadin");
+//                        Log.d("demo1", " get(3) " + list2.get(1));
+//
+//
+//                        for (Map.Entry<String, Object> entry : map.entrySet()) {
+//                            if (entry.getKey().equals("work")) {
+//
+////                                Log.d("demo1", " get(1) " + ((Map<String, Object>)map.get("work")).get("name"));
+////                                Log.d("demo1", " getValue() " + entry.getValue().toString());//
+////                                Log.d("demo1", " getKey() " + entry.getKey());
+//                            }
+//                            if (entry.getKey().trim().equals("region")) {
+////                                Log.d("demo1", entry.getValue().toString());
+////                                Log.d("demo1", " trim() " + entry.getValue());
+//                            }
+//                        }
+//
+////                        Log.d("demo1", "Cached document data: "+ list + document.getData());
+//                    }
+//
+//                } else {
+////                    Log.d("demo1", "Cached get failed: ", task.getException());
+//                }
+//            }
+//        });
 
 
 
@@ -230,31 +228,36 @@ public class MainActivity extends AppCompatActivity {
 
         // ----------------------state=CA bo'lsa shu kalitni massivga aylantirayapti--------------------------------------
 
-//        db.collection("cities")
-//                .whereEqualTo("state", "CA")
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot value,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w("demo1", "Listen failed.", e);
-//                            return;
-//                        }
-//
-//                        List<String> cities = new ArrayList<>();
-//                        for (QueryDocumentSnapshot doc : value) {
-//                            if (doc.get("name") != null) {
-//                                cities.add(doc.getString("name"));
-//                            }
-//                        }
-//                        Log.d("demo1", "Current cites in CA: " + cities);
-//                    }
-//                });
+        db.collection("users")
+                .whereEqualTo("state", "CA")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("demo1", "Listen failed.", e);
+                            return;
+                        }
+
+                        List<String> cities = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : value) {
+
+                            Map<String, Object> map2 = doc.getData();
+                            Log.d("demo1", " get(arrey) " + ((Map<String, Object>)map2.get("work")).get("id"));
+
+
+                            if (doc.get("work") != null) {
+                                cities.add(doc.getString("id"));
+                            }
+                        }
+                        Log.d("demo1", "Current cites in CA: " + cities);
+                    }
+                });
 
         // --------------------state=CA bo'lsa shu obekt olinyapti----------------------------------------
 
-//        db.collection("cities")
-//                .whereEqualTo("state", "CA")
+//        db.collection("users")
+//                .whereEqualTo("1.old", "2")
 //                .addSnapshotListener(new EventListener<QuerySnapshot>() {
 //                    @Override
 //                    public void onEvent(@Nullable QuerySnapshot snapshots,
@@ -264,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
 //                            return;
 //                        }
 //
+//                        Log.d("demo1", "New city: " );
 //                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
 //                            switch (dc.getType()) {
 //                                case ADDED:
@@ -284,21 +288,26 @@ public class MainActivity extends AppCompatActivity {
 
         // -------------------Жамисини capital-true ларини тортиб берди----------------------------------------
 
-//        db.collection("cities")
-//                .whereEqualTo("capital", true)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("demo1", document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.d("demo1", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
+        db.collection("users")
+                .whereEqualTo("1.capital", true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                              //  ----------------Map ni ichki kalitini oladi -------------
+                                Map<String, Object> map2 = document.getData();
+                                Log.d("demo1", " get(map2) " + ((Map<String, Object>)map2.get("work")).get("id"));
+
+                                Log.d("demo1", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("demo1", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
         // ------------------------------------------------------------
 
 //        db.collection("cities")
