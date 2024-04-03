@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
@@ -228,31 +229,46 @@ public class MainActivity extends AppCompatActivity {
 
         // ----------------------state=CA bo'lsa shu kalitni massivga aylantirayapti--------------------------------------
 
-        db.collection("users")
-                .whereEqualTo("state", "CA")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w("demo1", "Listen failed.", e);
-                            return;
-                        }
-
-                        List<String> cities = new ArrayList<>();
-                        for (QueryDocumentSnapshot doc : value) {
-
-                            Map<String, Object> map2 = doc.getData();
-                            Log.d("demo1", " get(arrey) " + ((Map<String, Object>)map2.get("work")).get("id"));
-
-
-                            if (doc.get("work") != null) {
-                                cities.add(doc.getString("id"));
-                            }
-                        }
-                        Log.d("demo1", "Current cites in CA: " + cities);
-                    }
-                });
+//        db.collection("users")
+//                .whereEqualTo("state", "CA")
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value,
+//                                        @Nullable FirebaseFirestoreException e) {
+//                        if (e != null) {
+//                            Log.w("demo1", "Listen failed.", e);
+//                            return;
+//                        }
+//
+//                        List<String> cities = new ArrayList<>();
+//                        for (QueryDocumentSnapshot doc : value) {
+//
+////                      ----------------Map ni kalitini oladi -------------
+//
+//                            Map<String, Object> map2 = doc.getData();
+//                            Log.d("demo1", " get(map kalit) " + map2.get("work"));
+//
+////                      ----------------Map ni ichki kalitini oladi -------------
+//                            Map<String, Object> map3 = (Map<String, Object>) doc.getData().get("work");
+//                            Map<String, Object> map5 = (Map<String, Object>) doc.getData().get("work");
+//                            Map<String, Object> map4 = (Map<String, Object>) doc.getData().get("1");
+//                            Log.d("demo1", " get(map ichki kalit) " + map3.get("id"));
+//                            Log.d("demo1", " get(map5) " + map5.get("gadin"));
+//
+//                            if (map2 != null) {
+////                                cities.add((String) map5.get("gadin"));
+//                                cities.add((String) map4.get("id"));
+//                            }
+//
+//
+//
+////                            if (doc.get("work") != null) {
+////                                cities.add(doc.getString("id"));
+////                            }
+//                        }
+//                        Log.d("demo1", "Current cites in CA: " + cities);
+//                    }
+//                });
 
         // --------------------state=CA bo'lsa shu obekt olinyapti----------------------------------------
 
@@ -288,26 +304,26 @@ public class MainActivity extends AppCompatActivity {
 
         // -------------------Жамисини capital-true ларини тортиб берди----------------------------------------
 
-        db.collection("users")
-                .whereEqualTo("1.capital", true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                              //  ----------------Map ni ichki kalitini oladi -------------
-                                Map<String, Object> map2 = document.getData();
-                                Log.d("demo1", " get(map2) " + ((Map<String, Object>)map2.get("work")).get("id"));
-
-                                Log.d("demo1", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d("demo1", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+//        db.collection("users")
+//                .whereEqualTo("1.capital", true)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//
+//                              //  ----------------Map ni ichki kalitini oladi -------------
+//                                Map<String, Object> map2 = document.getData();
+//                                Log.d("demo1", " get(map2) " + ((Map<String, Object>)map2.get("work")).get("id"));
+//
+//                                Log.d("demo1", document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.d("demo1", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
         // ------------------------------------------------------------
 
 //        db.collection("cities")
@@ -399,9 +415,35 @@ public class MainActivity extends AppCompatActivity {
         // ------------------------------------------------------------
 
 
+        CollectionReference citiesRef = db.collection("cities");
 
+        citiesRef.whereArrayContains("regions", "west_coast");
+        Query stateQuery = citiesRef.whereEqualTo("state", "CA");
+        Query populationQuery = citiesRef.whereLessThan("population", 100000);
+        Query nameQuery = citiesRef.whereGreaterThanOrEqualTo("name", "San Francisco");
+        Query notCapitalQuery = citiesRef.whereNotEqualTo("capital", false); // -----------------жами документда  -capital--false бўлганларни олади---
+        citiesRef.whereIn("country", Arrays.asList("China", "Japan"));  // -----------------жами документда  -country--"China", "Japan" бўлганларни олади--------------------------------
+        citiesRef.whereArrayContainsAny("regions", Arrays.asList("west_coast", "east_coast")); // -----------------жами документда  -Arrays--"west_coast", "east_coast" бўлганларни олади------------------------------
+        citiesRef.whereIn("regions", Arrays.asList(new String[]{"west_coast"}, new String[]{"east_coast"}));
+
+        citiesRef.whereEqualTo("state", "CA").whereLessThan("population", 1000000);
+        citiesRef.whereEqualTo("state", "CO").whereEqualTo("name", "Denver");
 
         // ------------------------------------------------------------
+
+//       .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d("demo1", document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.d("demo1", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
         // ------------------------------------------------------------
         // ------------------------------------------------------------
         // ------------------------------------------------------------
@@ -409,7 +451,52 @@ public class MainActivity extends AppCompatActivity {
         // ------------------------------------------------------------
         // ------------------------------------------------------------
 
-
+//        CollectionReference cities = db.collection("cities");
+//
+//        Map<String, Object> data1 = new HashMap<>();
+//        data1.put("name", "San Francisco");
+//        data1.put("state", "CA");
+//        data1.put("country", "USA");
+//        data1.put("capital", false);
+//        data1.put("population", 860000);
+//        data1.put("regions", Arrays.asList("west_coast", "norcal"));
+//        cities.document("SF").set(data1);
+//
+//        Map<String, Object> data2 = new HashMap<>();
+//        data2.put("name", "Los Angeles");
+//        data2.put("state", "CA");
+//        data2.put("country", "USA");
+//        data2.put("capital", false);
+//        data2.put("population", 3900000);
+//        data2.put("regions", Arrays.asList("west_coast", "socal"));
+//        cities.document("LA").set(data2);
+//
+//        Map<String, Object> data3 = new HashMap<>();
+//        data3.put("name", "Washington D.C.");
+//        data3.put("state", null);
+//        data3.put("country", "USA");
+//        data3.put("capital", true);
+//        data3.put("population", 680000);
+//        data3.put("regions", Arrays.asList("east_coast"));
+//        cities.document("DC").set(data3);
+//
+//        Map<String, Object> data4 = new HashMap<>();
+//        data4.put("name", "Tokyo");
+//        data4.put("state", null);
+//        data4.put("country", "Japan");
+//        data4.put("capital", true);
+//        data4.put("population", 9000000);
+//        data4.put("regions", Arrays.asList("kanto", "honshu"));
+//        cities.document("TOK").set(data4);
+//
+//        Map<String, Object> data5 = new HashMap<>();
+//        data5.put("name", "Beijing");
+//        data5.put("state", null);
+//        data5.put("country", "China");
+//        data5.put("capital", true);
+//        data5.put("population", 21500000);
+//        data5.put("regions", Arrays.asList("jingjinji", "hebei"));
+//        cities.document("BJ").set(data5);
 
 
 
