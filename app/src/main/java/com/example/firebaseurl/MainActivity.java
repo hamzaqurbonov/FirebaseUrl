@@ -17,6 +17,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,6 +31,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     City city1 = new City();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DatabaseReference mDatabase;
     CollectionReference cities = db.collection("cities");
 
     @Override
@@ -416,20 +421,40 @@ public class MainActivity extends AppCompatActivity {
 
 
         CollectionReference citiesRef = db.collection("cities");
+//
+//        citiesRef.whereArrayContains("regions", "west_coast");    // -----------------жами документда  -arreyda regions west_coast  бўлганларни олади---
+//        Query stateQuery = citiesRef.whereEqualTo("state", "CA");
+//        Query populationQuery = citiesRef.whereLessThan("population", 100000);
+//        Query nameQuery = citiesRef.whereGreaterThanOrEqualTo("name", "San Francisco");
+//        Query notCapitalQuery = citiesRef.whereNotEqualTo("capital", false); // -----------------жами документда  -capital--false бўлганларни олади---
+//        citiesRef.whereIn("country", Arrays.asList("China", "Japan"));  // -----------------жами документда  -country--"China", "Japan" бўлганларни олади--------------------------------
+//        citiesRef.whereArrayContainsAny("regions", Arrays.asList("west_coast", "east_coast")); // -----------------жами документда  -Arrays--"west_coast", "east_coast" бўлганларни олади------------------------------
+//        citiesRef.whereIn("regions", Arrays.asList(new String[]{"west_coast"}, new String[]{"east_coast"}))
+//
+//        citiesRef.whereEqualTo("state", "CA").whereLessThan("population", 1000000);
+//        citiesRef.whereEqualTo("state", "CA").whereEqualTo("name", "Tokyo"); // -----------------жами документда  -state-CA va- name - Tokyo бўлганларни олади--------------------------------
+//        citiesRef.orderBy("id");
 
-        citiesRef.whereArrayContains("regions", "west_coast");
-        Query stateQuery = citiesRef.whereEqualTo("state", "CA");
-        Query populationQuery = citiesRef.whereLessThan("population", 100000);
-        Query nameQuery = citiesRef.whereGreaterThanOrEqualTo("name", "San Francisco");
-        Query notCapitalQuery = citiesRef.whereNotEqualTo("capital", false); // -----------------жами документда  -capital--false бўлганларни олади---
-        citiesRef.whereIn("country", Arrays.asList("China", "Japan"));  // -----------------жами документда  -country--"China", "Japan" бўлганларни олади--------------------------------
-        citiesRef.whereArrayContainsAny("regions", Arrays.asList("west_coast", "east_coast")); // -----------------жами документда  -Arrays--"west_coast", "east_coast" бўлганларни олади------------------------------
-        citiesRef.whereIn("regions", Arrays.asList(new String[]{"west_coast"}, new String[]{"east_coast"}));
 
-        citiesRef.whereEqualTo("state", "CA").whereLessThan("population", 1000000);
-        citiesRef.whereEqualTo("state", "CO").whereEqualTo("name", "Denver");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         // ------------------------------------------------------------
+
+//        mDatabase.child("users").child(userId).child("username").setValue(name);
+
+        mDatabase.child("work").child("id").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.d("demo1", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("demo1", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+
 
 //       .get()
 //                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -450,6 +475,10 @@ public class MainActivity extends AppCompatActivity {
         // ------------------------------------------------------------
         // ------------------------------------------------------------
         // ------------------------------------------------------------
+
+
+
+
 
 //        CollectionReference cities = db.collection("cities");
 //

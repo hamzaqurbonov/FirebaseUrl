@@ -65,4 +65,6 @@ dependencies {
     implementation ("com.google.firebase:firebase-core:21.1.1")
     implementation ("com.firebaseui:firebase-ui-firestore:7.1.1")
 
+
+
 }
