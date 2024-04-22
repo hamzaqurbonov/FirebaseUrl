@@ -16,10 +16,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -419,6 +421,22 @@ public class MainActivity extends AppCompatActivity {
 //                );
         // ------------------------------------------------------------
 
+        // --------------------Realtime get in----------------------------------------
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mDatabase.child("work").child("id").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.d("demo1", "Error getting data", task.getException());
+//                }
+//                else {
+//                    Log.d("demo1", String.valueOf(task.getResult().getValue()));
+//                }
+//            }
+//        });
+
+
+        // ------------------------------------------------------------
 
         CollectionReference citiesRef = db.collection("cities");
 //
@@ -435,40 +453,32 @@ public class MainActivity extends AppCompatActivity {
 //        citiesRef.whereEqualTo("state", "CA").whereEqualTo("name", "Tokyo"); // -----------------жами документда  -state-CA va- name - Tokyo бўлганларни олади--------------------------------
 //        citiesRef.orderBy("id");
 
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-        // ------------------------------------------------------------
-
-//        mDatabase.child("users").child(userId).child("username").setValue(name);
-
-        mDatabase.child("work").child("id").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.d("demo1", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("demo1", String.valueOf(task.getResult().getValue()));
-                }
-            }
-        });
+//        db.collection("users") .orderBy("user")  // ------------ user qatnashdan xamma document olindi
 
 
-//       .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("demo1", document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.d("demo1", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
+        db.collection("users")
+                .orderBy("user")
+
+       .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("demo1", document.getId() + " => " + document.getData());
+
+                                Log.d("demo1", " get(map2) " + document.getData().get("user"));
+                                ArrayList<String> ga = (ArrayList<String>) document.getData().get("user");
+                                String clon =  ga.get(0);
+                                Log.d("demo1", " get(ArrayList) " + clon);
+
+//                                Log.d("demo1", " get(map2) " + ((Map<String, Object>)map2.get("work")).get("id"));
+                            }
+                        } else {
+                            Log.d("demo1", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
         // ------------------------------------------------------------
         // ------------------------------------------------------------
         // ------------------------------------------------------------
