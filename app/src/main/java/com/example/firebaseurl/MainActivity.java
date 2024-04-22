@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         docRef2.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                City city = documentSnapshot.toObject(City.class);
+//                City city = documentSnapshot.toObject(City.class);
 //                Log.d("demo1", "City " + city.getState());
             }
         });
@@ -465,14 +465,23 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
+//                                City city = document.toObject(City.class);
+//                                Log.d("demo1", "City " + city.getName());
                                 Log.d("demo1", document.getId() + " => " + document.getData());
 
-                                Log.d("demo1", " get(map2) " + document.getData().get("user"));
-                                ArrayList<String> ga = (ArrayList<String>) document.getData().get("user");
-                                String clon =  ga.get(0);
-                                Log.d("demo1", " get(ArrayList) " + clon);
+                                ArrayList<String> nextArrayList = new ArrayList<>();
 
-//                                Log.d("demo1", " get(map2) " + ((Map<String, Object>)map2.get("work")).get("id"));
+                                List transactions = (List) document.get("transctions");
+                                for (Object transaction: transactions) {
+                                    Map values = (Map)transaction;
+
+                                    nextArrayList.add((String) values.get("amaunt"));
+                                    Log.d("demo1", (String) values.get("amaunt"));
+//                                    System.out.println(values.get("amount");
+                                }
+                                Log.d("demo1", String.valueOf(nextArrayList));
+//
                             }
                         } else {
                             Log.d("demo1", "Error getting documents: ", task.getException());

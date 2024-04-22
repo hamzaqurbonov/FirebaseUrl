@@ -17,6 +17,9 @@ public class City {
     public City() {}
 
     public City (String name,String state, String country, boolean capital, long population, List<String> regions) {
+
+        this.name=name;
+        this.regions=regions;
         Log.d("demo1", name + state);
     }
 
