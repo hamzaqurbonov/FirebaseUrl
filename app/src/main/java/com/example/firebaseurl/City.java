@@ -10,6 +10,7 @@ public class City {
     private String idu;
     private String state;
     private String country;
+    private String amaut;
     private boolean capital;
     private long population;
     private List<String> regions;
@@ -50,6 +51,10 @@ public class City {
 
     public long getPopulation() {
         return population;
+    }
+
+    public String getAmaut() {
+        return amaut;
     }
 
     public List<String> getRegions() {

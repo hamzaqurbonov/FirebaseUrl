@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -279,34 +280,34 @@ public class MainActivity extends AppCompatActivity {
 
         // --------------------state=CA bo'lsa shu obekt olinyapti----------------------------------------
 
-//        db.collection("users")
-//                .whereEqualTo("1.old", "2")
-//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot snapshots,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w("demo1", "listen:error", e);
-//                            return;
-//                        }
-//
-//                        Log.d("demo1", "New city: " );
-//                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
-//                            switch (dc.getType()) {
-//                                case ADDED:
-//                                    Log.d("demo1", "New city: " + dc.getDocument().getData());
-//                                    break;
-//                                case MODIFIED:
-//                                    Log.d("demo1", "Modified city: " + dc.getDocument().getData());
-//                                    break;
-//                                case REMOVED:
-//                                    Log.d("demo1", "Removed city: " + dc.getDocument().getData());
-//                                    break;
-//                            }
-//                        }
-//
-//                    }
-//                });
+        db.collection("users")
+                .whereEqualTo("1.old", "2")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("demo1", "listen:error", e);
+                            return;
+                        }
+
+                        Log.d("demo1", "New city: " );
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    Log.d("demo1", "New city: " + dc.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    Log.d("demo1", "Modified city: " + dc.getDocument().getData());
+                                    break;
+                                case REMOVED:
+                                    Log.d("demo1", "Removed city: " + dc.getDocument().getData());
+                                    break;
+                            }
+                        }
+
+                    }
+                });
         //
 
         // -------------------Жамисини capital-true ларини тортиб берди----------------------------------------
@@ -457,7 +458,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         db.collection("users")
-                .orderBy("user")
+                .orderBy("transctions")
 
        .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -466,8 +467,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-//                                City city = document.toObject(City.class);
-//                                Log.d("demo1", "City " + city.getName());
+
+
                                 Log.d("demo1", document.getId() + " => " + document.getData());
 
                                 ArrayList<String> nextArrayList = new ArrayList<>();
@@ -475,9 +476,13 @@ public class MainActivity extends AppCompatActivity {
                                 List transactions = (List) document.get("transctions");
                                 for (Object transaction: transactions) {
                                     Map values = (Map)transaction;
+                                    City city = document.toObject(City.class);
+                                    Log.d("demo1", "City " + city.getAmaut());
 
                                     nextArrayList.add((String) values.get("amaunt"));
-                                    Log.d("demo1", (String) values.get("amaunt"));
+                                    Log.d("demo1", "Map values " +  values);
+                                    Log.d("demo1", "map1 " + (String) values.get("amaunt"));
+                                    Log.d("demo1", "amaut " + values.toString());
 //                                    System.out.println(values.get("amount");
                                 }
                                 Log.d("demo1", String.valueOf(nextArrayList));
@@ -488,8 +493,31 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-        // ------------------------------------------------------------
-        // ------------------------------------------------------------
+
+
+        // ---------------------------Massiv---------------------------------
+
+
+        DocumentReference washingtonRef = db.collection("cities").document("DC");
+
+// Atomically add a new region to the "regions" array field.
+        washingtonRef.update("regions", FieldValue.arrayUnion("greater_virginia1"));
+        washingtonRef.update("regions", FieldValue.arrayUnion("greater_virginia2"));
+
+// Atomically remove a region from the "regions" array field.
+        washingtonRef.update("regions", FieldValue.arrayRemove("east_coast"));
+//        washingtonRef.update("regions", FieldValue.delete());
+
+
+
+        // -----------------------Ko'paytirish bo'lish qo'shish amallarini bajaradi-------------------------------------
+
+//        DocumentReference washingtonRef = db.collection("cities").document("DC");
+
+// Atomically increment the population of the city by 50.
+        washingtonRef.update("population", FieldValue.increment(6 / 2));
+
+
         // ------------------------------------------------------------
         // ------------------------------------------------------------
         // ------------------------------------------------------------
