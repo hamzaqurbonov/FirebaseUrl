@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 import com.google.firestore.v1.WriteResult;
 
@@ -502,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
 
 // Atomically add a new region to the "regions" array field.
         washingtonRef.update("regions", FieldValue.arrayUnion("greater_virginia1"));
-        washingtonRef.update("regions", FieldValue.arrayUnion("greater_virginia2"));
+        washingtonRef.update("regions", FieldValue.arrayUnion("greater_virginia3"));
 
 // Atomically remove a region from the "regions" array field.
         washingtonRef.update("regions", FieldValue.arrayRemove("east_coast"));
@@ -519,6 +520,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         // ------------------------------------------------------------
+
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        DocumentReference ref = rootRef.collection("cities").document("DC");
+        Map<String, Object> availableProducts = new HashMap<>();
+        Map<String, Object> zeroMap = new HashMap<>();
+        Map<String, Object> product = new HashMap<>();
+        product.put("spPrice2", 64.1);
+        zeroMap.put("1", product);
+        availableProducts.put("availableProducts", zeroMap);
+        ref.set(availableProducts, SetOptions.merge());
+
+
+
+
         // ------------------------------------------------------------
         // ------------------------------------------------------------
         // ------------------------------------------------------------
